@@ -1,7 +1,7 @@
 # AItranslater
 翻译工具，分为本地与api两种模式。
 
-在线体验（仅支持api模式）
+[在线体验(仅支持api模式 )](https://aitranslater-jellyfish.streamlit.app/)
 
 # 本地模式使用模型
 Helsinki-NLP/opus-mt-zh-en
