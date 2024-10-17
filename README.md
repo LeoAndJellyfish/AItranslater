@@ -1,5 +1,5 @@
-# translater
-翻译工具，分为本地与api（待开发）两种模式。
+# AItranslater
+翻译工具，分为本地与api两种模式。
 
 # 本地模式
 
