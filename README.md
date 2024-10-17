@@ -5,7 +5,7 @@
 
 ## 安装环境
 ```
-pip install streamlit transformers torch
+pip install streamlit transformers torch openai
 ```
 
 ## 启动
@@ -18,4 +18,15 @@ Helsinki-NLP/opus-mt-zh-en
 Helsinki-NLP/opus-mt-en-zh
 
 
-# API模式（待开发）
+# API模式
+支持openai格式的api接口。
+
+## 安装环境
+```
+pip install streamlit transformers torch openai
+```
+
+## 启动
+```
+streamlit run app.py --server.address 127.0.0.1 --server.port 6006
+```
