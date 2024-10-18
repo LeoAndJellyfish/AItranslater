@@ -41,7 +41,7 @@ if mode == "使用API":
             else:
                 st.error(f"获取模型失败，错误代码: {model_response.status_code}")
         except Exception as e:
-            st.error(f"获取模型过程中发生错误: {str(e)}")
+            st.error(f"请输入有效的API密钥或者账号密码!")
 
 # 提示信息
 st.write("请输入要翻译的文本：")
