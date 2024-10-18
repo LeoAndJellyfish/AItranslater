@@ -22,3 +22,7 @@ pip install -r requirements.txt
 ```
 streamlit run app.py --server.address 127.0.0.1 --server.port 6006
 ```
+
+# TODO
+- [ ] 新增账号密码登录功能
+- [ ] 优化界面
