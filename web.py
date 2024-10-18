@@ -6,9 +6,21 @@ st.title("AItranslater")
 st.write("在线版，仅支持API")
 mode = "使用API"
 if mode == "使用API":
-    # 用户输入API的URL和API密钥
+    # 选择认证方式
+    auth_method = st.radio("请选择认证方式:", ("API密钥", "账号密码"))
+
+    # 用户输入API的URL
     API_URL = st.text_input("请输入翻译API的URL", "https://api.lingyiwanwu.com/v1/chat/completions")
-    API_KEY = st.text_input("请输入API密钥", type="password")  # 密钥输入框，隐藏输入
+
+    if auth_method == "API密钥":
+        # 用户输入API密钥
+        API_KEY = st.text_input("请输入API密钥", type="password")  # 密钥输入框，隐藏输入
+    else:
+        # 用户输入用户名和密码
+        USERNAME = st.text_input("请输入用户名")
+        PASSWORD = st.text_input("请输入密码", type="password")  # 密码输入框，隐藏输入
+        if PASSWORD==st.secrets.admin_password.password and USERNAME==st.secrets.admin_password.username:
+            API_KEY = st.secrets.admin_password.API_KEY
 
     # 当用户输入API密钥后自动获取模型列表
     if API_KEY:
@@ -42,8 +54,11 @@ if st.button("翻译"):
         if not API_URL or 'selected_model' not in st.session_state:
             st.error("请提供有效的API URL和选择模型！")
         else:
-            if not API_KEY:
+            # 确定认证方式
+            if auth_method == "API密钥" and not API_KEY:
                 st.error("请提供有效的API密钥！")
+            elif auth_method == "账号密码" and (not USERNAME or not PASSWORD):
+                st.error("请提供有效的用户名和密码！")
             else:
                 try:
                     # 构造请求的body
@@ -71,7 +86,7 @@ if st.button("翻译"):
                     elif response.status_code == 400:
                         st.error("请求错误：模型的输入超过了模型的最大上下文，或输入格式错误。请检查输入。")
                     elif response.status_code == 401:
-                        st.error("认证错误：API Key缺失或无效，请确保你的API Key有效。")
+                        st.error("认证错误：API Key或用户名密码无效，请确保你的认证信息有效。")
                     elif response.status_code == 404:
                         st.error("未找到：无效的Endpoint URL或模型名，请确保使用正确的Endpoint URL或模型名。")
                     elif response.status_code == 429:
