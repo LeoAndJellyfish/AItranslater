@@ -11,7 +11,7 @@ if mode == "使用API":
 
     # 用户输入API的URL
     API_URL = st.text_input("请输入翻译API的URL", "https://api.lingyiwanwu.com/v1/chat/completions")
-
+    API_KEY = 0
     if auth_method == "API密钥":
         # 用户输入API密钥
         API_KEY = st.text_input("请输入API密钥", type="password")  # 密钥输入框，隐藏输入
@@ -41,7 +41,7 @@ if mode == "使用API":
             else:
                 st.error(f"获取模型失败，错误代码: {model_response.status_code}")
         except Exception as e:
-            st.error(f"请输入有效的API密钥或者账号密码!")
+            st.error(f"获取模型过程中发生错误: {str(e)}")
 
 # 提示信息
 st.write("请输入要翻译的文本：")
