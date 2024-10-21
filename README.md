@@ -11,6 +11,8 @@ Helsinki-NLP/opus-mt-en-zh
 # API模式
 支持openai格式的api接口。
 
+// 调试streamlit run web.py --server.address 127.0.0.1 --server.port 6006 
+
 # 本地部署
 
 ## 安装环境

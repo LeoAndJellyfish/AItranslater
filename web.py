@@ -4,13 +4,17 @@ import requests
 # Streamlit 用户界面
 st.title("AItranslater")
 st.write("在线版，仅支持API")
-mode = "使用API"
-if mode == "使用API":
+
+# 侧边栏 - 登录及设置
+with st.sidebar:
+    st.header("设置")
+    
     # 选择认证方式
     auth_method = st.radio("请选择认证方式:", ("API密钥", "账号密码"))
 
     # 用户输入API的URL
     API_URL = st.text_input("请输入翻译API的URL", "https://api.lingyiwanwu.com/v1/chat/completions")
+
     API_KEY = 0
     if auth_method == "API密钥":
         # 用户输入API密钥
@@ -19,29 +23,25 @@ if mode == "使用API":
         # 用户输入用户名和密码
         USERNAME = st.text_input("请输入用户名")
         PASSWORD = st.text_input("请输入密码", type="password")  # 密码输入框，隐藏输入
-        if PASSWORD==st.secrets.admin_password.password and USERNAME==st.secrets.admin_password.username:
+        if PASSWORD == st.secrets.admin_password.password and USERNAME == st.secrets.admin_password.username:
             API_KEY = st.secrets.admin_password.API_KEY
 
-    # 当用户输入API密钥后自动获取模型列表
-    if API_KEY:
-        try:
-            headers = {
-                'Authorization': f'Bearer {API_KEY}'
-            }
-            model_response = requests.get('https://api.lingyiwanwu.com/v1/models', headers=headers)
-            if model_response.status_code == 200:
-                models = model_response.json().get('data', [])
-                model_list = [model['id'] for model in models]
-                selected_model = st.selectbox("请选择使用的模型", model_list, key="model_selection")
-                st.session_state.selected_model = selected_model
-                if 'selected_model' in st.session_state:
-                    st.write("当前选择的模型:", st.session_state.selected_model)
-                else:
-                    st.error("未选择模型！")
-            else:
-                st.error(f"获取模型失败，错误代码: {model_response.status_code}")
-        except Exception as e:
-            st.error(f"获取模型过程中发生错误: {str(e)}")
+# 当用户输入API密钥后自动获取模型列表
+if API_KEY:
+    try:
+        headers = {
+            'Authorization': f'Bearer {API_KEY}'
+        }
+        model_response = requests.get('https://api.lingyiwanwu.com/v1/models', headers=headers)
+        if model_response.status_code == 200:
+            models = model_response.json().get('data', [])
+            model_list = [model['id'] for model in models]
+            selected_model = st.selectbox("请选择使用的模型", model_list, key="model_selection")
+            st.session_state.selected_model = selected_model
+            if 'selected_model' in st.session_state:
+                st.write("当前选择的模型:", st.session_state.selected_model)
+    except Exception as e:
+        st.error(f"模型加载失败: {e}")
 
 # 提示信息
 st.write("请输入要翻译的文本：")
